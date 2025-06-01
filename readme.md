@@ -14,5 +14,5 @@ Cron Parser is a command line tool that takes a cron expression and outputs a hu
 ## How to run
 
 ```shell
-java -jar /build/libs/cron-parser-1.0.jar "*/15 0 1,15 * 1-5 /usr/bin/find"
+java -jar build/libs/cron-parser-1.0.jar "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```

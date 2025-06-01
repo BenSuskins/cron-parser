@@ -71,7 +71,7 @@ class Input(
             }
 
             value.contains(",") -> {
-                value.split(",").joinToString(space)
+                value.split(",").map { validate(it, min, max) }.joinToString(space)
             }
 
             else -> {

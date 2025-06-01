@@ -92,6 +92,10 @@ class CronParserTest {
         assertThrows<IllegalArgumentException> {
             parse("1-90 1 15 1 1 /usr/bin/find")
         }
+
+        assertThrows<IllegalArgumentException> {
+            parse("1,90 1 15 1 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -162,6 +166,10 @@ class CronParserTest {
 
         assertThrows<IllegalArgumentException> {
             parse("1 1-63 15 1 1 /usr/bin/find")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1,63 15 1 1 /usr/bin/find")
         }
     }
 
@@ -234,6 +242,10 @@ class CronParserTest {
         assertThrows<IllegalArgumentException> {
             parse("1 1 1-35 1 1 /usr/bin/find")
         }
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 1,35 1 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -305,6 +317,10 @@ class CronParserTest {
         assertThrows<IllegalArgumentException> {
             parse("1 1 15 1-15 1 /usr/bin/find")
         }
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 15 1,15 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -375,6 +391,10 @@ class CronParserTest {
 
         assertThrows<IllegalArgumentException> {
             parse("1 1 15 1 1-8 /usr/bin/find")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 15 1 1,8 /usr/bin/find")
         }
     }
 

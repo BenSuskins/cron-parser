@@ -1,5 +1,7 @@
 package uk.co.suskins
 
+private const val space = " "
+
 fun parse(inputString: String): String {
     val input = splitInput(inputString)
 
@@ -13,16 +15,19 @@ fun parse(inputString: String): String {
             """.trimIndent()
 }
 
+
 fun splitInput(inputString: String): Input {
-    val split = inputString.split(" ")
+    val split = inputString.split(space)
 
     return Input(split[0])
 }
 
 class Input(private val minute: String) {
     fun parseMinutes(): String {
-        return if (minute.contains("*")) {
-            "0 15 30 45"
+        return if (minute == "*") {
+            (0..59).joinToString(space)
+        } else if (minute.contains("/")) {
+            (0..59 step minute.split("/")[1].toInt()).joinToString(space)
         } else {
             minute
         }

@@ -8,9 +8,9 @@ fun parse(inputString: String): String {
     return """
             minute ${input.parseMinutes()}
             hour ${input.parseHours()}
-            day of month ${input.parseDays()}
+            day of month ${input.parseDayOfMonth()}
             month ${input.parseMonth()}
-            day of week 1 2 3 4 5
+            day of week ${input.parseDayOfWeek()}
             command /usr/bin/find
             """.trimIndent()
 }
@@ -19,14 +19,15 @@ fun parse(inputString: String): String {
 fun splitInput(inputString: String): Input {
     val split = inputString.split(space)
 
-    return Input(split[0], split[1], split[2], split[3])
+    return Input(split[0], split[1], split[2], split[3], split[4])
 }
 
 class Input(
     private val minute: String,
     private val hour: String,
-    private val day: String,
+    private val dayOfMonth: String,
     private val month: String,
+    private val dayOfWeek: String,
 ) {
     fun parseMinutes(): String {
         return if (minute == "*") {
@@ -60,19 +61,19 @@ class Input(
         }
     }
 
-    fun parseDays(): String {
-        return if (day == "*") {
+    fun parseDayOfMonth(): String {
+        return if (dayOfMonth == "*") {
             (1..31).joinToString(space)
-        } else if (day.contains("/")) {
-            (1..31 step day.split("/")[1].toInt()).joinToString(space)
-        } else if (day.contains("-")) {
-            val split = day.split("-")
+        } else if (dayOfMonth.contains("/")) {
+            (1..31 step dayOfMonth.split("/")[1].toInt()).joinToString(space)
+        } else if (dayOfMonth.contains("-")) {
+            val split = dayOfMonth.split("-")
             (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (day.contains(",")) {
-            val split = day.split(",")
+        } else if (dayOfMonth.contains(",")) {
+            val split = dayOfMonth.split(",")
             listOf(split[0], split[1]).joinToString(space)
         } else {
-            day
+            dayOfMonth
         }
     }
 
@@ -89,6 +90,22 @@ class Input(
             listOf(split[0], split[1]).joinToString(space)
         } else {
             month
+        }
+    }
+
+    fun parseDayOfWeek(): String {
+        return if (dayOfWeek == "*") {
+            (1..7).joinToString(space)
+        } else if (dayOfWeek.contains("/")) {
+            (1..7 step dayOfWeek.split("/")[1].toInt()).joinToString(space)
+        } else if (dayOfWeek.contains("-")) {
+            val split = dayOfWeek.split("-")
+            (split[0].toInt()..split[1].toInt()).joinToString(space)
+        } else if (dayOfWeek.contains(",")) {
+            val split = dayOfWeek.split(",")
+            listOf(split[0], split[1]).joinToString(space)
+        } else {
+            dayOfWeek
         }
     }
 }

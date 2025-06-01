@@ -11,7 +11,7 @@ fun parse(inputString: String): String {
             day of month ${input.parseDayOfMonth()}
             month ${input.parseMonth()}
             day of week ${input.parseDayOfWeek()}
-            command /usr/bin/find
+            command ${input.parseCommand()}
             """.trimIndent()
 }
 
@@ -19,7 +19,7 @@ fun parse(inputString: String): String {
 fun splitInput(inputString: String): Input {
     val split = inputString.split(space)
 
-    return Input(split[0], split[1], split[2], split[3], split[4])
+    return Input(split[0], split[1], split[2], split[3], split[4], split.subList(5, split.size).joinToString(space))
 }
 
 class Input(
@@ -28,6 +28,7 @@ class Input(
     private val dayOfMonth: String,
     private val month: String,
     private val dayOfWeek: String,
+    private val command: String,
 ) {
     fun parseMinutes(): String {
         return if (minute == "*") {
@@ -107,5 +108,9 @@ class Input(
         } else {
             dayOfWeek
         }
+    }
+
+    fun parseCommand(): String {
+        return command
     }
 }

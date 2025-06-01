@@ -336,4 +336,43 @@ class CronParserTest {
             parse("15 0 1 1 1,6 /usr/bin/find")
         )
     }
+
+    @Test
+    fun `can parse command`() {
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1
+            month 1
+            day of week 1
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0 1 1 1 /usr/bin/find")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1
+            month 1
+            day of week 1
+            command hello world
+            """.trimIndent(),
+            parse("15 0 1 1 1 hello world")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1
+            month 1
+            day of week 1
+            command /hello/world
+            """.trimIndent(),
+            parse("15 0 1 1 1 /hello/world")
+        )
+    }
 }

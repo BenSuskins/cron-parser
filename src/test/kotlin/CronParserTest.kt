@@ -5,7 +5,6 @@ import kotlin.test.assertEquals
 
 class CronParserTest {
     @Test
-    @Disabled
     fun `can parse an input`() {
         val input = "*/15 0 1,15 * 1-5 /usr/bin/find"
 

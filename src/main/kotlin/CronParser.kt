@@ -9,7 +9,7 @@ fun parse(inputString: String): String {
             minute ${input.parseMinutes()}
             hour ${input.parseHours()}
             day of month ${input.parseDays()}
-            month 1 2 3 4 5 6 7 8 9 10 11 12
+            month ${input.parseMonth()}
             day of week 1 2 3 4 5
             command /usr/bin/find
             """.trimIndent()
@@ -19,13 +19,14 @@ fun parse(inputString: String): String {
 fun splitInput(inputString: String): Input {
     val split = inputString.split(space)
 
-    return Input(split[0], split[1], split[2])
+    return Input(split[0], split[1], split[2], split[3])
 }
 
 class Input(
     private val minute: String,
     private val hour: String,
-    private val day: String
+    private val day: String,
+    private val month: String,
 ) {
     fun parseMinutes(): String {
         return if (minute == "*") {
@@ -72,6 +73,22 @@ class Input(
             listOf(split[0], split[1]).joinToString(space)
         } else {
             day
+        }
+    }
+
+    fun parseMonth(): String {
+        return if (month == "*") {
+            (1..12).joinToString(space)
+        } else if (month.contains("/")) {
+            (1..12 step month.split("/")[1].toInt()).joinToString(space)
+        } else if (month.contains("-")) {
+            val split = month.split("-")
+            (split[0].toInt()..split[1].toInt()).joinToString(space)
+        } else if (month.contains(",")) {
+            val split = month.split(",")
+            listOf(split[0], split[1]).joinToString(space)
+        } else {
+            month
         }
     }
 }

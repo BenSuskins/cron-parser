@@ -62,16 +62,22 @@ class Input(
             }
 
             value.contains("/") -> {
-                (min..max step value.split("/")[1].toInt()).joinToString(space)
+                (min..max step value.split("/")[1].toInt())
+                    .map { validate(it, min, max) }
+                    .joinToString(space)
             }
 
             value.contains("-") -> {
                 val split = value.split("-")
-                (validate(split[0], min, max)..(validate(split[1], min, max))).joinToString(space)
+                (split[0].toInt()..split[1].toInt())
+                    .map { validate(it, min, max) }
+                    .joinToString(space)
             }
 
             value.contains(",") -> {
-                value.split(",").map { validate(it, min, max) }.joinToString(space)
+                value.split(",")
+                    .map { validate(it, min, max) }
+                    .joinToString(space)
             }
 
             else -> {
@@ -79,11 +85,14 @@ class Input(
             }
         }
 
-    private fun validate(value: String, min: Int, max: Int): Int {
-        if (value.toInt() > max || value.toInt() < min) {
+    private fun validate(value: String, min: Int, max: Int) =
+        validate(value.toInt(), min, max)
+
+    private fun validate(value: Int, min: Int, max: Int): Int {
+        if (value > max || value < min) {
             throw IllegalArgumentException("Invalid argument $value")
         }
-        return value.toInt()
+        return value
     }
 
     fun parseCommand() = command

@@ -74,6 +74,10 @@ class Input(
                 value.split(",").joinToString(space)
             }
 
+            value.toInt() > max || value.toInt() < min -> {
+                throw IllegalArgumentException()
+            }
+
             else -> {
                 value
             }

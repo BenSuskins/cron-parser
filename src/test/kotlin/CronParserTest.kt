@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import uk.co.suskins.parse
 import kotlin.test.assertEquals
 
@@ -83,6 +84,10 @@ class CronParserTest {
             """.trimIndent(),
             parse("0,12 0 1,15 * 1-5 /usr/bin/find")
         )
+
+        assertThrows<IllegalArgumentException> {
+            parse("75 1 15 1 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -146,6 +151,10 @@ class CronParserTest {
             """.trimIndent(),
             parse("15 0,12 1,15 * 1-5 /usr/bin/find")
         )
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 63 15 1 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -209,6 +218,10 @@ class CronParserTest {
             """.trimIndent(),
             parse("15 0 1,15 * 1-5 /usr/bin/find")
         )
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 35 1 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -272,6 +285,10 @@ class CronParserTest {
             """.trimIndent(),
             parse("15 0 1 1,6 1-5 /usr/bin/find")
         )
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 15 15 1 /usr/bin/find")
+        }
     }
 
     @Test
@@ -335,6 +352,10 @@ class CronParserTest {
             """.trimIndent(),
             parse("15 0 1 1 1,6 /usr/bin/find")
         )
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 15 1 8 /usr/bin/find")
+        }
     }
 
     @Test

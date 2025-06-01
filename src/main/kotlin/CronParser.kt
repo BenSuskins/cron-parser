@@ -31,6 +31,9 @@ class Input(private val minute: String, private val hour: String) {
         } else if (minute.contains("-")) {
             val split = minute.split("-")
             (split[0].toInt()..split[1].toInt()).joinToString(space)
+        } else if (minute.contains(",")) {
+            val split = minute.split(",")
+            listOf(split[0], split[1]).joinToString(space)
         } else {
             minute
         }
@@ -44,6 +47,9 @@ class Input(private val minute: String, private val hour: String) {
         } else if (hour.contains("-")) {
             val split = hour.split("-")
             (split[0].toInt()..split[1].toInt()).joinToString(space)
+        } else if (hour.contains(",")) {
+            val split = hour.split(",")
+            listOf(split[0], split[1]).joinToString(space)
         } else {
             hour
         }

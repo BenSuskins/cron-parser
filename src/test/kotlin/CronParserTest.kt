@@ -72,6 +72,18 @@ class CronParserTest {
             """.trimIndent(),
             parse("0-12 0 1,15 * 1-5 /usr/bin/find")
         )
+
+        assertEquals(
+            """
+            minute 0 12
+            hour 0
+            day of month 1 15
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("0,12 0 1,15 * 1-5 /usr/bin/find")
+        )
     }
 
     @Test
@@ -122,6 +134,18 @@ class CronParserTest {
             command /usr/bin/find
             """.trimIndent(),
             parse("15 0-12 1,15 * 1-5 /usr/bin/find")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0 12
+            day of month 1 15
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0,12 1,15 * 1-5 /usr/bin/find")
         )
     }
 }

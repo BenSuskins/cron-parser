@@ -30,87 +30,30 @@ class Input(
     private val dayOfWeek: String,
     private val command: String,
 ) {
-    fun parseMinutes(): String {
-        return if (minute == "*") {
-            (0..59).joinToString(space)
-        } else if (minute.contains("/")) {
-            (0..59 step minute.split("/")[1].toInt()).joinToString(space)
-        } else if (minute.contains("-")) {
-            val split = minute.split("-")
+    fun parseMinutes() = parse(0, 59, minute)
+
+    fun parseHours() = parse(0, 23, hour)
+
+    fun parseDayOfMonth() = parse(1, 31, dayOfMonth)
+
+    fun parseMonth() = parse(1, 12, month)
+
+    fun parseDayOfWeek() = parse(1, 7, dayOfWeek)
+
+    private fun parse(min: Int, max: Int, value: String) =
+        if (value == "*") {
+            (min..max).joinToString(space)
+        } else if (value.contains("/")) {
+            (min..max step value.split("/")[1].toInt()).joinToString(space)
+        } else if (value.contains("-")) {
+            val split = value.split("-")
             (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (minute.contains(",")) {
-            val split = minute.split(",")
+        } else if (value.contains(",")) {
+            val split = value.split(",")
             listOf(split[0], split[1]).joinToString(space)
         } else {
-            minute
+            value
         }
-    }
 
-    fun parseHours(): String {
-        return if (hour == "*") {
-            (0..23).joinToString(space)
-        } else if (hour.contains("/")) {
-            (0..23 step hour.split("/")[1].toInt()).joinToString(space)
-        } else if (hour.contains("-")) {
-            val split = hour.split("-")
-            (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (hour.contains(",")) {
-            val split = hour.split(",")
-            listOf(split[0], split[1]).joinToString(space)
-        } else {
-            hour
-        }
-    }
-
-    fun parseDayOfMonth(): String {
-        return if (dayOfMonth == "*") {
-            (1..31).joinToString(space)
-        } else if (dayOfMonth.contains("/")) {
-            (1..31 step dayOfMonth.split("/")[1].toInt()).joinToString(space)
-        } else if (dayOfMonth.contains("-")) {
-            val split = dayOfMonth.split("-")
-            (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (dayOfMonth.contains(",")) {
-            val split = dayOfMonth.split(",")
-            listOf(split[0], split[1]).joinToString(space)
-        } else {
-            dayOfMonth
-        }
-    }
-
-    fun parseMonth(): String {
-        return if (month == "*") {
-            (1..12).joinToString(space)
-        } else if (month.contains("/")) {
-            (1..12 step month.split("/")[1].toInt()).joinToString(space)
-        } else if (month.contains("-")) {
-            val split = month.split("-")
-            (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (month.contains(",")) {
-            val split = month.split(",")
-            listOf(split[0], split[1]).joinToString(space)
-        } else {
-            month
-        }
-    }
-
-    fun parseDayOfWeek(): String {
-        return if (dayOfWeek == "*") {
-            (1..7).joinToString(space)
-        } else if (dayOfWeek.contains("/")) {
-            (1..7 step dayOfWeek.split("/")[1].toInt()).joinToString(space)
-        } else if (dayOfWeek.contains("-")) {
-            val split = dayOfWeek.split("-")
-            (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (dayOfWeek.contains(",")) {
-            val split = dayOfWeek.split(",")
-            listOf(split[0], split[1]).joinToString(space)
-        } else {
-            dayOfWeek
-        }
-    }
-
-    fun parseCommand(): String {
-        return command
-    }
+    fun parseCommand() = command
 }

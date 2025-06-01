@@ -18,7 +18,7 @@ private const val minDayOfWeek = 1
 private const val maxDayOfWeek = 7
 
 fun parse(inputString: String): String {
-    val input = splitInput(inputString)
+    val input = parseInput(inputString)
 
     return """
             minute ${input.parseMinutes()}
@@ -31,8 +31,8 @@ fun parse(inputString: String): String {
 }
 
 
-fun splitInput(inputString: String): Input {
-    val split = inputString.split(space)
+fun parseInput(inputString: String): Input {
+    val split = inputString.trim().split(space)
 
     return Input(split[0], split[1], split[2], split[3], split[4], split.drop(5).joinToString(space))
 }

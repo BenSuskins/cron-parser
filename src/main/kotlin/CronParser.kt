@@ -21,12 +21,12 @@ fun parse(inputString: String): String {
     val input = parseInput(inputString)
 
     return """
-            minute ${input.parseMinutes()}
-            hour ${input.parseHours()}
-            day of month ${input.parseDayOfMonth()}
-            month ${input.parseMonth()}
-            day of week ${input.parseDayOfWeek()}
-            command ${input.parseCommand()}
+            minute         ${input.parseMinutes()}
+            hour           ${input.parseHours()}
+            day of month   ${input.parseDayOfMonth()}
+            month          ${input.parseMonth()}
+            day of week    ${input.parseDayOfWeek()}
+            command        ${input.parseCommand()}
             """.trimIndent()
 }
 

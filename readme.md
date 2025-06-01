@@ -30,3 +30,10 @@ month 1 2 3 4 5 6 7 8 9 10 11 12
 day of week 1 2 3 4 5
 command /usr/bin/find
 ```
+
+## Assumptions
+
+The following assumptions were made during development:
+
+- `command` cannot contain spaces.
+- `day of the week` starts at 1 rather than 0

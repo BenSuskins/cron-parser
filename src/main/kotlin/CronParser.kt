@@ -32,7 +32,10 @@ fun parse(inputString: String): String {
 
 fun parseInput(inputString: String): Input {
     val split = inputString.trim().split(space)
-    return Input(split[0], split[1], split[2], split[3], split[4], split.drop(5).joinToString(space))
+    if (split.size < 6 || split.size > 6) {
+        throw IllegalArgumentException("Five time arguments required")
+    }
+    return Input(split[0], split[1], split[2], split[3], split[4], split[5])
 }
 
 class Input(

@@ -419,9 +419,9 @@ class CronParserTest {
             day of month   1
             month          1
             day of week    1
-            command        hello world
+            command        helloworld
             """.trimIndent(),
-            parse("15 0 1 1 1 hello world")
+            parse("15 0 1 1 1 helloworld")
         )
 
         assertEquals(
@@ -476,4 +476,14 @@ class CronParserTest {
         )
     }
 
+    @Test
+    fun `Only accepts 5 time arguments`() {
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 1 /usr/bin/find")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            parse("1 1 1 1 1 1 /usr/bin/find")
+        }
+    }
 }

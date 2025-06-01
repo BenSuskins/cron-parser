@@ -56,17 +56,27 @@ class Input(
     fun parseDayOfWeek() = parse(dayOfWeek, minDayOfWeek, maxDayOfWeek)
 
     private fun parse(value: String, min: Int, max: Int) =
-        if (value == "*") {
-            (min..max).joinToString(space)
-        } else if (value.contains("/")) {
-            (min..max step value.split("/")[1].toInt()).joinToString(space)
-        } else if (value.contains("-")) {
-            val split = value.split("-")
-            (split[0].toInt()..split[1].toInt()).joinToString(space)
-        } else if (value.contains(",")) {
-            value.split(",").joinToString(space)
-        } else {
-            value
+        when {
+            value == "*" -> {
+                (min..max).joinToString(space)
+            }
+
+            value.contains("/") -> {
+                (min..max step value.split("/")[1].toInt()).joinToString(space)
+            }
+
+            value.contains("-") -> {
+                val split = value.split("-")
+                (split[0].toInt()..split[1].toInt()).joinToString(space)
+            }
+
+            value.contains(",") -> {
+                value.split(",").joinToString(space)
+            }
+
+            else -> {
+                value
+            }
         }
 
     fun parseCommand() = command

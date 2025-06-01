@@ -148,4 +148,67 @@ class CronParserTest {
             parse("15 0,12 1,15 * 1-5 /usr/bin/find")
         )
     }
+
+    @Test
+    fun `can parse days`() {
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0 1 * 1-5 /usr/bin/find")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0 * * 1-5 /usr/bin/find")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1 16 31
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0 */15 * 1-5 /usr/bin/find")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1 2 3 4 5 6 7 8 9 10 11 12
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0 1-12 * 1-5 /usr/bin/find")
+        )
+
+        assertEquals(
+            """
+            minute 15
+            hour 0
+            day of month 1 15
+            month 1 2 3 4 5 6 7 8 9 10 11 12
+            day of week 1 2 3 4 5
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15 0 1,15 * 1-5 /usr/bin/find")
+        )
+    }
 }

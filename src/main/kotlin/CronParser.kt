@@ -8,7 +8,7 @@ fun parse(inputString: String): String {
     return """
             minute ${input.parseMinutes()}
             hour ${input.parseHours()}
-            day of month 1 15
+            day of month ${input.parseDays()}
             month 1 2 3 4 5 6 7 8 9 10 11 12
             day of week 1 2 3 4 5
             command /usr/bin/find
@@ -19,10 +19,14 @@ fun parse(inputString: String): String {
 fun splitInput(inputString: String): Input {
     val split = inputString.split(space)
 
-    return Input(split[0], split[1])
+    return Input(split[0], split[1], split[2])
 }
 
-class Input(private val minute: String, private val hour: String) {
+class Input(
+    private val minute: String,
+    private val hour: String,
+    private val day: String
+) {
     fun parseMinutes(): String {
         return if (minute == "*") {
             (0..59).joinToString(space)
@@ -52,6 +56,22 @@ class Input(private val minute: String, private val hour: String) {
             listOf(split[0], split[1]).joinToString(space)
         } else {
             hour
+        }
+    }
+
+    fun parseDays(): String {
+        return if (day == "*") {
+            (1..31).joinToString(space)
+        } else if (day.contains("/")) {
+            (1..31 step day.split("/")[1].toInt()).joinToString(space)
+        } else if (day.contains("-")) {
+            val split = day.split("-")
+            (split[0].toInt()..split[1].toInt()).joinToString(space)
+        } else if (day.contains(",")) {
+            val split = day.split(",")
+            listOf(split[0], split[1]).joinToString(space)
+        } else {
+            day
         }
     }
 }

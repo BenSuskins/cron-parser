@@ -67,21 +67,24 @@ class Input(
 
             value.contains("-") -> {
                 val split = value.split("-")
-                (split[0].toInt()..split[1].toInt()).joinToString(space)
+                (validate(split[0], min, max)..(validate(split[1], min, max))).joinToString(space)
             }
 
             value.contains(",") -> {
                 value.split(",").joinToString(space)
             }
 
-            value.toInt() > max || value.toInt() < min -> {
-                throw IllegalArgumentException()
-            }
-
             else -> {
-                value
+                validate(value, min, max)
             }
         }
+
+    private fun validate(value: String, min: Int, max: Int): Int {
+        if (value.toInt() > max || value.toInt() < min) {
+            throw IllegalArgumentException("Invalid argument $value")
+        }
+        return value.toInt()
+    }
 
     fun parseCommand() = command
 }

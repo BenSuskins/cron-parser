@@ -2,6 +2,21 @@ package uk.co.suskins
 
 private const val space = " "
 
+private const val minMinutes = 0
+private const val maxMinutes = 59
+
+private const val minHours = 0
+private const val maxHours = 23
+
+private const val minDayOfMonth = 1
+private const val maxDayOfMonth = 31
+
+private const val minMonth = 1
+private const val maxMonth = 12
+
+private const val minDayOfWeek = 1
+private const val maxDayOfWeek = 7
+
 fun parse(inputString: String): String {
     val input = splitInput(inputString)
 
@@ -19,7 +34,7 @@ fun parse(inputString: String): String {
 fun splitInput(inputString: String): Input {
     val split = inputString.split(space)
 
-    return Input(split[0], split[1], split[2], split[3], split[4], split.subList(5, split.size).joinToString(space))
+    return Input(split[0], split[1], split[2], split[3], split[4], split.drop(5).joinToString(space))
 }
 
 class Input(
@@ -30,17 +45,17 @@ class Input(
     private val dayOfWeek: String,
     private val command: String,
 ) {
-    fun parseMinutes() = parse(0, 59, minute)
+    fun parseMinutes() = parse(minute, minMinutes, maxMinutes)
 
-    fun parseHours() = parse(0, 23, hour)
+    fun parseHours() = parse(hour, minHours, maxHours)
 
-    fun parseDayOfMonth() = parse(1, 31, dayOfMonth)
+    fun parseDayOfMonth() = parse(dayOfMonth, minDayOfMonth, maxDayOfMonth)
 
-    fun parseMonth() = parse(1, 12, month)
+    fun parseMonth() = parse(month, minMonth, maxMonth)
 
-    fun parseDayOfWeek() = parse(1, 7, dayOfWeek)
+    fun parseDayOfWeek() = parse(dayOfWeek, minDayOfWeek, maxDayOfWeek)
 
-    private fun parse(min: Int, max: Int, value: String) =
+    private fun parse(value: String, min: Int, max: Int) =
         if (value == "*") {
             (min..max).joinToString(space)
         } else if (value.contains("/")) {

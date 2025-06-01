@@ -58,35 +58,29 @@ class Input(
     private fun parse(value: String, min: Int, max: Int) =
         when {
             value == "*" -> {
-                (min..max).joinToString(space)
+                (min..max)
             }
 
             value.contains("/") -> {
                 (min..max step value.split("/")[1].toInt())
-                    .map { validate(it, min, max) }
-                    .joinToString(space)
             }
 
             value.contains("-") -> {
                 val split = value.split("-")
                 (split[0].toInt()..split[1].toInt())
-                    .map { validate(it, min, max) }
-                    .joinToString(space)
             }
 
             value.contains(",") -> {
-                value.split(",")
-                    .map { validate(it, min, max) }
-                    .joinToString(space)
+                value.split(",").map { it.toInt() }
             }
 
             else -> {
-                validate(value, min, max)
+                listOf(value.toInt())
             }
         }
-
-    private fun validate(value: String, min: Int, max: Int) =
-        validate(value.toInt(), min, max)
+            .map { validate(it, min, max) }
+            .distinct()
+            .joinToString(space)
 
     private fun validate(value: Int, min: Int, max: Int): Int {
         if (value > max || value < min) {

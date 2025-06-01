@@ -33,7 +33,6 @@ fun parse(inputString: String): String {
 
 fun parseInput(inputString: String): Input {
     val split = inputString.trim().split(space)
-
     return Input(split[0], split[1], split[2], split[3], split[4], split.drop(5).joinToString(space))
 }
 

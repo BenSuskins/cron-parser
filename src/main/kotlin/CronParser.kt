@@ -64,8 +64,7 @@ class Input(
             val split = value.split("-")
             (split[0].toInt()..split[1].toInt()).joinToString(space)
         } else if (value.contains(",")) {
-            val split = value.split(",")
-            listOf(split[0], split[1]).joinToString(space)
+            value.split(",").joinToString(space)
         } else {
             value
         }

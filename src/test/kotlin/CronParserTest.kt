@@ -375,4 +375,19 @@ class CronParserTest {
             parse("15 0 1 1 1 /hello/world")
         )
     }
+
+    @Test
+    fun `can parse edge cases`() {
+        assertEquals(
+            """
+            minute 15 16 17 18
+            hour 0
+            day of month 1
+            month 1
+            day of week 1
+            command /usr/bin/find
+            """.trimIndent(),
+            parse("15,16,17,18 0 1 1 1 /usr/bin/find")
+        )
+    }
 }

@@ -477,13 +477,58 @@ class CronParserTest {
     }
 
     @Test
-    fun `Only accepts 5 time arguments`() {
-        assertThrows<IllegalArgumentException> {
-            parse("1 1 1 /usr/bin/find")
-        }
+    fun `Can accept a command with a arguments`() {
+        assertEquals(
+            """
+            minute         0 15 30 45
+            hour           1 2 3 4 5
+            day of month   1 15
+            month          2 4
+            day of week    1 2 3 4 5
+            command        /usr/bin/find -v foo -v bar
+            """.trimIndent(),
+            parse("*/15 1-5 1,15 2,4 1-5 /usr/bin/find -v foo -v bar")
+        )
 
-        assertThrows<IllegalArgumentException> {
-            parse("1 1 1 1 1 1 /usr/bin/find")
-        }
+        assertEquals(
+            """
+            minute         0 15 30 45
+            hour           1 2 3 4 5
+            day of month   1 15
+            month          2 4
+            day of week    1 2 3 4 5
+            command        -v foo
+            """.trimIndent(),
+            parse("*/15 1-5 1,15 2,4 1-5 -v foo")
+        )
+    }
+
+    @Test
+    fun `Can accept an optional year parameter`() {
+        assertEquals(
+            """
+            minute         0 15 30 45
+            hour           1 2 3 4 5
+            day of month   1 15
+            month          2 4
+            day of week    1 2 3 4 5
+            command        /usr/bin/find -v foo
+            year           2025
+            """.trimIndent(),
+            parse("*/15 1-5 1,15 2,4 1-5 2025 /usr/bin/find -v foo")
+        )
+
+        assertEquals(
+            """
+            minute         0 15 30 45
+            hour           1 2 3 4 5
+            day of month   1 15
+            month          2 4
+            day of week    1 2 3 4 5
+            command        -v foo
+            year           2025 2026 2027
+            """.trimIndent(),
+            parse("*/15 1-5 1,15 2,4 1-5 2025-2027 -v foo")
+        )
     }
 }

@@ -19,8 +19,21 @@ private const val maxDayOfWeek = 7
 
 fun parse(inputString: String): String {
     val input = parseInput(inputString)
+    return when (input.hasYear()) {
+        true -> {
+            """
+            minute         ${input.parseMinutes()}
+            hour           ${input.parseHours()}
+            day of month   ${input.parseDayOfMonth()}
+            month          ${input.parseMonth()}
+            day of week    ${input.parseDayOfWeek()}
+            command        ${input.parseCommand()}
+            year           ${input.parseYear()}
+            """.trimIndent()
+        }
 
-    return """
+        false -> {
+            return """
             minute         ${input.parseMinutes()}
             hour           ${input.parseHours()}
             day of month   ${input.parseDayOfMonth()}
@@ -28,15 +41,22 @@ fun parse(inputString: String): String {
             day of week    ${input.parseDayOfWeek()}
             command        ${input.parseCommand()}
             """.trimIndent()
+        }
+    }
 }
 
 fun parseInput(inputString: String): Input {
     val split = inputString.trim().split(space)
-    if (split.size < 6 || split.size > 6) {
-        throw IllegalArgumentException("Five time arguments required")
+
+    return if (isATimeElement(split[5])) {
+        Input(split[0], split[1], split[2], split[3], split[4], split[5], split.drop(6).joinToString(space))
+    } else {
+        Input(split[0], split[1], split[2], split[3], split[4], null, split.drop(5).joinToString(space))
     }
-    return Input(split[0], split[1], split[2], split[3], split[4], split[5])
 }
+
+private fun isATimeElement(string: String) =
+    !string.contains("""[a-z]""".toRegex()) || string == "*"
 
 class Input(
     private val minute: String,
@@ -44,6 +64,7 @@ class Input(
     private val dayOfMonth: String,
     private val month: String,
     private val dayOfWeek: String,
+    private val year: String?,
     private val command: String,
 ) {
     fun parseMinutes() = parse(minute, minMinutes, maxMinutes)
@@ -55,6 +76,10 @@ class Input(
     fun parseMonth() = parse(month, minMonth, maxMonth)
 
     fun parseDayOfWeek() = parse(dayOfWeek, minDayOfWeek, maxDayOfWeek)
+
+    fun parseYear() = parse(year!!, 2025, 2100)
+
+    fun hasYear() = year != null
 
     private fun parse(value: String, min: Int, max: Int) =
         when {
